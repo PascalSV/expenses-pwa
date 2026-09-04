@@ -34,24 +34,15 @@
       </div>
     </header>
 
-    <!-- Month Navigation -->
-    <div class="month-nav-wrapper" id="month-picker">
-      <button class="month-chevron glass-sm" id="month-prev">&#9664;</button>
-      <span class="month-label" id="month-label">September 2025</span>
-      <button class="month-chevron glass-sm" id="month-next">&#9654;</button>
-    </div>
-
     <!-- Main Content -->
     <main id="main-content">
       <!-- Gauge Panel -->
       <section class="gauge-section" id="gauge-section">
         <div class="glass glass-strong gauge-card">
+          <button class="month-chevron" id="month-prev">&#9664;</button>
           <canvas id="gauge-canvas" width="300" height="180"></canvas>
-          <div class="gauge-info">
-            <span id="budget-label" class="gauge-budget-target"></span>
-            <span id="spent-label" class="gauge-spent-amount"></span>
-          </div>
-          <button id="edit-budget-btn" class="edit-budget-btn">Edit Budget</button>
+          <span id="spent-label" class="gauge-spent-amount"></span>
+          <button class="month-chevron" id="month-next">&#9654;</button>
         </div>
       </section>
 

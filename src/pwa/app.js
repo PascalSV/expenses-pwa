@@ -243,8 +243,7 @@ function updateGauge() {
   const spent = state.expenses.reduce((sum, e) => sum + e.amount, 0);
   drawGauge(spent, state.budget);
 
-  document.getElementById('budget-label').textContent = `Budget: ${formatCurrencyDisplay(state.budget, state.currency)}`;
-  document.getElementById('spent-label').textContent = `Spent: ${formatCurrencyDisplay(spent, state.currency)}`;
+  document.getElementById('spent-label').textContent = formatCurrencyDisplay(spent, state.currency);
 }
 
 // ========== Month Navigation ==========

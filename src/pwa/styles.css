@@ -159,17 +159,26 @@ body {
   color: var(--glass-text);
 }
 
-/* ========== Month Navigation ========== */
+/* ========== Gauge Section ========== */
 
-.month-nav-wrapper {
+.gauge-section {
+  padding: 16px;
+}
+
+.gauge-card {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: var(--radius-xl);
+  padding: 24px 60px;
   gap: 20px;
-  padding: 14px 16px;
+  position: relative;
 }
 
 .month-chevron {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   width: 48px;
   height: 48px;
   min-height: 48px;
@@ -181,37 +190,23 @@ body {
   color: var(--glass-text);
   font-size: 24px;
   border: none;
+  background: transparent;
   transition: transform var(--duration-fast) var(--ease-liquid),
               background var(--duration-fast) var(--ease-liquid);
   -webkit-tap-highlight-color: transparent;
 }
 
 .month-chevron:active {
-  transform: scale(0.92);
+  transform: translateY(-50%) scale(0.92);
   background: var(--glass-accent) !important;
 }
 
-.month-label {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--glass-text);
-  min-width: 180px;
-  text-align: center;
+.month-chevron#month-prev {
+  left: 16px;
 }
 
-/* ========== Gauge Section ========== */
-
-.gauge-section {
-  padding: 16px;
-}
-
-.gauge-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: var(--radius-xl);
-  padding: 24px 20px;
-  gap: 8px;
+.month-chevron#month-next {
+  right: 16px;
 }
 
 #gauge-canvas {
@@ -219,39 +214,10 @@ body {
   height: auto;
 }
 
-.gauge-info {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.gauge-budget-target {
-  font-size: 20px;
-  font-weight: 700;
-}
-
 .gauge-spent-amount {
-  font-size: 18px;
-  color: var(--glass-text-secondary);
-}
-
-.edit-budget-btn {
-  font-size: 16px;
-  color: var(--glass-accent-text);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  transition: background var(--duration-fast) var(--ease-liquid);
-  min-height: 44px;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.edit-budget-btn:active {
-  background: var(--glass-accent);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--glass-text);
 }
 
 /* ========== Expense Form ========== */
