@@ -15,3 +15,8 @@ assets = { directory = "src/pwa", binding = "ASSETS" }
   globs = ["**/*.js"]
   fallthrough = true
 
+# Custom domain
+routes = [
+  { pattern = "expenses-pwa.everyday-apps.org/*", zone_id = "562991781207dfc9e64451bec4e2f17b" }
+]
+
