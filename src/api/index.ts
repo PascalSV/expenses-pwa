@@ -293,7 +293,7 @@ app.post('/api/sync/pull', async (c) => {
   const params: any[] = [userId, lastSyncTimestamp || '1970-01-01', lastSyncTimestamp || '1970-01-01'];
   const expenses = await c.env.DB.prepare(query).bind(...params).all();
 
-  const list = (expenses as any[]).map((row: Record<string, any>) => ({
+  const list = ((expenses as any).results || []).map((row: Record<string, any>) => ({
     id: row.id,
     user_id: row.user_id,
     amount: Number(row.amount),
