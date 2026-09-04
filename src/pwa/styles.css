@@ -727,3 +727,19 @@ body {
   outline: 2px solid var(--glass-inverted);
   outline-offset: 2px;
 }
+
+/* ========== Blurry Status Bar for iOS PWA ========== */
+
+@supports (padding: env(safe-area-inset-top)) {
+  body::before {
+    content: '';
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top);
+    backdrop-filter: blur(10px);
+    mask: linear-gradient(to bottom, black, black 50%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0) 100%);
+  }
+}
