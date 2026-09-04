@@ -58,35 +58,33 @@ app.post('/api/auth/login', async (c) => {
 // ---- Settings ----
 
 app.get('/api/settings', async (c) => {
-  const userId = c.get('userId');
   const settings = await c.env.DB.prepare(
-    'SELECT target_budget, currency FROM settings WHERE user_id = ?'
-  ).bind(userId).first();
+    'SELECT target_budget, currency FROM settings WHERE id = 1'
+  ).first();
 
   return c.json(settings || { target_budget: 250000, currency: 'EUR' });
 });
 
 app.put('/api/settings', async (c) => {
-  const userId = c.get('userId');
   const { target_budget, currency } = await c.req.json();
 
   const existing = await c.env.DB.prepare(
-    'SELECT user_id FROM settings WHERE user_id = ?'
-  ).bind(userId).first();
+    'SELECT id FROM settings WHERE id = 1'
+  ).first();
 
   if (existing) {
     await c.env.DB.prepare(`
-      UPDATE settings SET target_budget = COALESCE(?, target_budget), currency = COALESCE(?, currency) WHERE user_id = ?
-    `).bind(target_budget, currency, userId).run();
+      UPDATE settings SET target_budget = COALESCE(?, target_budget), currency = COALESCE(?, currency) WHERE id = 1
+    `).bind(target_budget, currency).run();
   } else {
     await c.env.DB.prepare(`
-      INSERT INTO settings (user_id, target_budget, currency) VALUES (?, ?, ?)
-    `).bind(userId, target_budget || 250000, currency || 'EUR').run();
+      INSERT INTO settings (id, target_budget, currency) VALUES (1, ?, ?)
+    `).bind(target_budget || 250000, currency || 'EUR').run();
   }
 
   const updated = await c.env.DB.prepare(
-    'SELECT target_budget, currency FROM settings WHERE user_id = ?'
-  ).bind(userId).first();
+    'SELECT target_budget, currency FROM settings WHERE id = 1'
+  ).first();
 
   return c.json(updated);
 });

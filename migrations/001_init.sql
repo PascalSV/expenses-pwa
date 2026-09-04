@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS expenses (
 
 -- Create settings table
 CREATE TABLE IF NOT EXISTS settings (
-    user_id TEXT PRIMARY KEY REFERENCES users(id),
+    id INTEGER PRIMARY KEY CHECK (id = 1),
     target_budget INTEGER NOT NULL DEFAULT 250000,
-    currency TEXT NOT NULL DEFAULT 'CHF'
+    currency TEXT NOT NULL DEFAULT 'EUR'
 );
 
 -- Indexes for efficient queries
