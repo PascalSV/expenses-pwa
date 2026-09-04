@@ -1,0 +1,17 @@
+name = "expenses-pwa"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+main = "src/api/index.ts"
+
+assets = { directory = "src/pwa", binding = "ASSETS" }
+
+# D1 Database binding
+[[d1_databases]]
+  binding = "DB"
+  database_name = "expenses-db"
+
+[[rules]]
+  type = "ESModule"
+  globs = ["**/*.js"]
+  fallthrough = true
+

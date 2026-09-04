@@ -1,0 +1,24 @@
+{
+  "name": "expenses-pwa",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "vite build && cp src/pwa/service-worker.js dist/ && cp src/pwa/manifest.json dist/ && cp src/pwa/icon-192.png dist/ && cp src/pwa/icon-512.png dist/",
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler pages deploy dist/",
+    "workers:dev": "wrangler dev",
+    "setup": "npx wrangler d1 create expenses-db && npx wrangler d1 execute expenses-db --local --file=migrations/001_init.sql",
+    "cf-typegen": "wrangler types",
+    "seed": "bash scripts/seed-users.sh"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5",
+    "vite": "^8.2.2",
+    "wrangler": "^4.128.0"
+  },
+  "dependencies": {
+    "hono": "^4.13.5"
+  }
+}

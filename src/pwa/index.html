@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Expenses" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <title>Expenses</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="glass-header glass-strong" id="header">
+      <div class="header-row">
+        <h1 id="app-title">Expenses</h1>
+        <div class="header-actions">
+          <button id="sync-button" class="sync-btn glass" title="Sync">
+            <svg id="sync-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 2v6h-6 M3 12a9 9 0 0 1 15-6.7L21 8 M3 22v-6h6 M21 12a9 9 0 0 1-15 6.7L3 16"/>
+            </svg>
+          </button>
+          <button id="settings-button" class="sync-btn glass" title="User">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Month Navigation -->
+    <div class="month-nav-wrapper" id="month-picker">
+      <button class="month-chevron glass-sm" id="month-prev">&#9664;</button>
+      <span class="month-label" id="month-label">September 2025</span>
+      <button class="month-chevron glass-sm" id="month-next">&#9654;</button>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content">
+      <!-- Gauge Panel -->
+      <section class="gauge-section" id="gauge-section">
+        <div class="glass glass-strong gauge-card">
+          <canvas id="gauge-canvas" width="300" height="180"></canvas>
+          <div class="gauge-info">
+            <span id="budget-label" class="gauge-budget-target"></span>
+            <span id="spent-label" class="gauge-spent-amount"></span>
+          </div>
+          <button id="edit-budget-btn" class="edit-budget-btn">Edit Budget</button>
+        </div>
+      </section>
+
+      <!-- Add Expense Form -->
+      <section class="form-section" id="expense-form-section">
+        <div class="glass glass-strong expense-form-card">
+          <input type="text" id="expense-purpose" class="glass-input" placeholder="Purpose (tap for keypad)" autocomplete="off" />
+          <div class="glass-input amount-display" id="amount-preview">0.00</div>
+          <input type="date" id="expense-date" class="glass-input" />
+          <div class="form-row">
+            <label class="regular-toggle-label">
+              <span>Regular</span>
+              <div class="toggle-switch" id="regular-toggle">
+                <div class="toggle-knob"></div>
+              </div>
+            </label>
+          </div>
+          <button id="add-expense-btn" class="glass-btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Add Expense
+          </button>
+        </div>
+      </section>
+
+      <!-- Amount Keypad (floating, triggered when purpose input is focused) -->
+      <div class="keypad-overlay" id="amount-keypad">
+        <div class="glass glass-strong keypad-panel">
+          <div class="keypad-display" id="amount-display">0.00</div>
+          <div class="keypad-grid" id="amount-keypad-grid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Expense List -->
+      <section class="list-section" id="expense-list-section">
+        <div id="expenses-container">
+          <!-- Populated by JS -->
+          <div class="empty-state glass">
+            <p>No expenses this month</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Sync Indicator -->
+    <div class="sync-indicator glass" id="sync-indicator">
+      <svg class="sync-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="15">
+          <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+      <span id="sync-status-text">Synced</span>
+    </div>
+
+    <!-- Budget Edit Modal (Glass Popover) -->
+    <div class="modal-overlay" id="budget-modal">
+      <div class="glass-giant glass-strong budget-editor">
+        <h2>Edit Budget</h2>
+        <div class="keypad-display" id="budget-display">0.00</div>
+        <div class="keypad-grid" id="budget-keypad-grid">
+          <!-- Populated by JS -->
+        </div>
+        <div class="budget-actions">
+          <button id="cancel-budget-btn" class="glass-btn-secondary">Cancel</button>
+          <button id="save-budget-btn" class="glass-btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Modal -->
+    <div class="modal-overlay" id="user-modal">
+      <div class="glass-giant glass-strong user-editor">
+        <h2>Login</h2>
+        <input type="text" id="user-id-input" class="glass-input" placeholder="User ID (pascal or claudia)" />
+        <input type="text" id="user-display-name" class="glass-input" placeholder="Display Name" />
+        <div class="user-actions">
+          <button id="cancel-user-btn" class="glass-btn-secondary">Cancel</button>
+          <button id="save-user-btn" class="glass-btn-primary">Login</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Expense Modal -->
+    <div class="modal-overlay" id="edit-modal">
+      <div class="glass-giant glass-strong edit-expense-form">
+        <h2>Edit Expense</h2>
+        <input type="hidden" id="edit-expense-id" />
+        <input type="text" id="edit-purpose" class="glass-input" placeholder="Purpose" />
+        <input type="date" id="edit-date" class="glass-input" />
+        <div class="keypad-display" id="edit-amount-display">0.00</div>
+        <div class="keypad-grid" id="edit-keypad-grid">
+          <!-- Populated by JS -->
+        </div>
+        <label class="regular-toggle-label">
+          <span>Regular</span>
+          <div class="toggle-switch" id="edit-regular-toggle">
+            <div class="toggle-knob"></div>
+          </div>
+        </label>
+        <div class="edit-actions">
+          <button id="delete-expense-btn" class="glass-btn-danger">Delete</button>
+          <button id="cancel-edit-btn" class="glass-btn-secondary">Cancel</button>
+          <button id="save-expense-btn" class="glass-btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js');
+      });
+    }
+  </script>
+</body>
+</html>
